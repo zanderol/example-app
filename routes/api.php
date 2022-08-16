@@ -2,6 +2,7 @@
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\Api\ArticlesController;
 
 /*
 |--------------------------------------------------------------------------
@@ -14,6 +15,8 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
-    return $request->user();
-});
+//Get complete list of the articles
+Route::get('/articles', [ArticlesController::class, 'showArticles']);
+
+//Get one selected article by ID
+Route::get('/articles/{id}', [ArticlesController::class, 'showSingleArticle']);
