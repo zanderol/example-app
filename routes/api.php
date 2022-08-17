@@ -20,3 +20,6 @@ Route::get('/articles', [ArticlesController::class, 'showArticles']);
 
 //Get one selected article by ID
 Route::get('/articles/{id}', [ArticlesController::class, 'showSingleArticle']);
+
+//Add new article
+Route::post('/articles', [ArticlesController::class, 'storeArticle']);
