@@ -23,3 +23,10 @@ Route::get('/articles/{id}', [ArticlesController::class, 'showSingleArticle']);
 
 //Add new article
 Route::post('/articles', [ArticlesController::class, 'storeArticle']);
+
+//Edit article with PUT method
+Route::put('/articles/{id}', [ArticlesController::class, 'editArticlePut']);
+
+//Partial edit of one of the fields of the article with PATCH method
+Route::patch('/articles/{id}', [ArticlesController::class, 'editArticlePatch']);
+
