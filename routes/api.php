@@ -30,3 +30,5 @@ Route::put('/articles/{id}', [ArticlesController::class, 'editArticlePut']);
 //Partial edit of one of the fields of the article with PATCH method
 Route::patch('/articles/{id}', [ArticlesController::class, 'editArticlePatch']);
 
+//Delete one single article by ID
+Route::delete('/articles/{id}', [ArticlesController::class, 'deleteArticle']);

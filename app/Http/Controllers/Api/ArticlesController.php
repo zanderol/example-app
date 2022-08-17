@@ -94,63 +94,83 @@ class ArticlesController extends Controller
         $article->save();
 
         return response()->json([
-           'status' => true,
-           'message' => 'Article updated'
+            'status' => true,
+            'message' => 'Article updated'
         ])->setStatusCode(200, 'Article updated');
     }
 
-    public function editArticlePatch($id, Request $request) {
-        {
-            $request_data = $request->only(['title', 'content']);
+    public function editArticlePatch($id, Request $request){
 
-            if (count($request_data) === 0) {
-                return response()->json([
-                    "status" => false,
-                    "message" => "All fields is empty"
-                ])->setStatusCode(422, "All fields is empty");
-            }
+        $request_data = $request->only(['title', 'content']);
 
-            $rules_const = [
-                "title" => ['required', 'string'],
-                "content" => ['required', 'string']
-            ];
-
-
-            $rules = [];
-
-            foreach ($request_data as $key => $data) {
-                $rules[$key] = $rules_const[$key];
-            }
-
-            $validator = Validator::make($request_data, $rules);
-
-            if ($validator->fails()) {
-                return response()->json([
-                    "status" => false,
-                    "errors" => $validator->messages()
-                ])->setStatusCode(422);
-            }
-
-            $article = Article::find($id);
-
-            if (!$article) {
-                return response()->json([
-                    "status" => false,
-                    "message" => "Article not found"
-                ])->setStatusCode(404, "Article not found");
-            }
-
-            foreach ($request_data as $key => $data) {
-                $article->$key = $data;
-            }
-
-            $article->save();
-
+        if (count($request_data) === 0) {
             return response()->json([
-                "status" => true,
-                "message" => "Article is updated"
-            ])->setStatusCode(200, "Article is updated");
-
+                "status" => false,
+                "message" => "All fields are empty"
+            ])->setStatusCode(422, "All fields are empty");
         }
+
+        $rules_const = [
+            "title" => ['required', 'string'],
+            "content" => ['required', 'string']
+        ];
+
+
+        $rules = [];
+
+        foreach ($request_data as $key => $data) {
+            $rules[$key] = $rules_const[$key];
+        }
+
+        $validator = Validator::make($request_data, $rules);
+
+        if ($validator->fails()) {
+            return response()->json([
+                "status" => false,
+                "errors" => $validator->messages()
+            ])->setStatusCode(422);
+        }
+
+        $article = Article::find($id);
+
+        if (!$article) {
+            return response()->json([
+                "status" => false,
+                "message" => "Article not found"
+            ])->setStatusCode(404, "Article not found");
+        }
+
+        foreach ($request_data as $key => $data) {
+            $article->$key = $data;
+        }
+
+        $article->save();
+
+        return response()->json([
+            "status" => true,
+            "message" => "Article is updated"
+        ])->setStatusCode(200, "Article is updated");
+
+    }
+
+    public function deleteArticle($id)
+    {
+
+        $article = Article::find($id);
+
+        if (!$article) {
+            return response()->json([
+                "status" => false,
+                "message" => "Article not found"
+            ])->setStatusCode(404, 'Article not found'); //not necessary minor update
+        }
+
+        $article->delete();
+
+        return response()->json([
+            "status" => true,
+            "message" => "Article has deleted"
+        ])->setStatusCode(404, 'Deleted');
     }
 }
+
