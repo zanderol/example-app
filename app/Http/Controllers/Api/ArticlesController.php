@@ -173,4 +173,3 @@ class ArticlesController extends Controller
         ])->setStatusCode(404, 'Deleted');
     }
 }
-
