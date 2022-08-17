@@ -98,4 +98,59 @@ class ArticlesController extends Controller
            'message' => 'Article updated'
         ])->setStatusCode(200, 'Article updated');
     }
+
+    public function editArticlePatch($id, Request $request) {
+        {
+            $request_data = $request->only(['title', 'content']);
+
+            if (count($request_data) === 0) {
+                return response()->json([
+                    "status" => false,
+                    "message" => "All fields is empty"
+                ])->setStatusCode(422, "All fields is empty");
+            }
+
+            $rules_const = [
+                "title" => ['required', 'string'],
+                "content" => ['required', 'string']
+            ];
+
+
+            $rules = [];
+
+            foreach ($request_data as $key => $data) {
+                $rules[$key] = $rules_const[$key];
+            }
+
+            $validator = Validator::make($request_data, $rules);
+
+            if ($validator->fails()) {
+                return response()->json([
+                    "status" => false,
+                    "errors" => $validator->messages()
+                ])->setStatusCode(422);
+            }
+
+            $article = Article::find($id);
+
+            if (!$article) {
+                return response()->json([
+                    "status" => false,
+                    "message" => "Article not found"
+                ])->setStatusCode(404, "Article not found");
+            }
+
+            foreach ($request_data as $key => $data) {
+                $article->$key = $data;
+            }
+
+            $article->save();
+
+            return response()->json([
+                "status" => true,
+                "message" => "Article is updated"
+            ])->setStatusCode(200, "Article is updated");
+
+        }
+    }
 }
