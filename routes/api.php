@@ -16,19 +16,19 @@ use App\Http\Controllers\Api\ArticlesController;
 */
 
 //Get complete list of the articles
-Route::get('/articles', [ArticlesController::class, 'showArticles']);
+Route::get('/articles', [ArticlesController::class, 'index']);
 
 //Get one selected article by ID
-Route::get('/articles/{id}', [ArticlesController::class, 'showSingleArticle']);
+Route::get('/articles/{id}', [ArticlesController::class, 'show']);
 
 //Add new article
-Route::post('/articles', [ArticlesController::class, 'storeArticle']);
+Route::post('/articles', [ArticlesController::class, 'store']);
 
 //Edit article with PUT method
-Route::put('/articles/{id}', [ArticlesController::class, 'editArticlePut']);
+Route::put('/articles/{id}', [ArticlesController::class, 'editPut']);
 
 //Partial edit of one of the fields of the article with PATCH method
-Route::patch('/articles/{id}', [ArticlesController::class, 'editArticlePatch']);
+Route::patch('/articles/{id}', [ArticlesController::class, 'editPatch']);
 
 //Delete one single article by ID
-Route::delete('/articles/{id}', [ArticlesController::class, 'deleteArticle']);
+Route::delete('/articles/{id}', [ArticlesController::class, 'delete']);

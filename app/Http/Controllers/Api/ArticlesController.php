@@ -9,7 +9,7 @@ use Validator;
 
 class ArticlesController extends Controller
 {
-    public function showArticles()
+    public function index()
     {
 
         $articles = Article::all();
@@ -17,7 +17,7 @@ class ArticlesController extends Controller
         return response()->json($articles);
     }
 
-    public function showSingleArticle($id)
+    public function show($id)
     {
 
         $article = Article::find($id);
@@ -32,12 +32,12 @@ class ArticlesController extends Controller
         return response()->json($article);
     }
 
-    public function storeArticle(Request $request)
+    public function store(Request $request)
     {
 
-        $request_data = $request->only('title', 'content');
+        $requestData = $request->only('title', 'content');
 
-        $validator = Validator::make($request_data, [
+        $validator = Validator::make($requestData, [
             'title' => ['required', 'string'],
             'content' => ['required', 'string']
         ]);
@@ -62,12 +62,12 @@ class ArticlesController extends Controller
         ])->setStatusCode(201, 'Article added successfully'); //Code needs to be set, StatusCode - not necessarily
     }
 
-    public function editArticlePut($id, Request $request)
+    public function editPut($id, Request $request)
     {
 
-        $request_data = $request->only('title', 'content');
+        $requestData = $request->only('title', 'content');
 
-        $validator = Validator::make($request_data, [
+        $validator = Validator::make($requestData, [
             'title' => ['required', 'string'],
             'content' => ['required', 'string']
         ]);
@@ -88,8 +88,8 @@ class ArticlesController extends Controller
             ])->setStatusCode(404, 'Article not found');
         }
 
-        $article->title = $request_data['title'];
-        $article->content = $request_data['content'];
+        $article->title = $requestData['title'];
+        $article->content = $requestData['content'];
 
         $article->save();
 
@@ -99,11 +99,11 @@ class ArticlesController extends Controller
         ])->setStatusCode(200, 'Article updated');
     }
 
-    public function editArticlePatch($id, Request $request){
+    public function editPatch($id, Request $request){
 
-        $request_data = $request->only(['title', 'content']);
+        $requestData = $request->only(['title', 'content']);
 
-        if (count($request_data) === 0) {
+        if (count($requestData) === 0) {
             return response()->json([
                 "status" => false,
                 "message" => "All fields are empty"
@@ -118,11 +118,11 @@ class ArticlesController extends Controller
 
         $rules = [];
 
-        foreach ($request_data as $key => $data) {
+        foreach ($requestData as $key => $data) {
             $rules[$key] = $rules_const[$key];
         }
 
-        $validator = Validator::make($request_data, $rules);
+        $validator = Validator::make($requestData, $rules);
 
         if ($validator->fails()) {
             return response()->json([
@@ -140,7 +140,7 @@ class ArticlesController extends Controller
             ])->setStatusCode(404, "Article not found");
         }
 
-        foreach ($request_data as $key => $data) {
+        foreach ($requestData as $key => $data) {
             $article->$key = $data;
         }
 
@@ -153,7 +153,7 @@ class ArticlesController extends Controller
 
     }
 
-    public function deleteArticle($id)
+    public function delete($id)
     {
 
         $article = Article::find($id);
