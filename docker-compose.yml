@@ -11,7 +11,7 @@ services:
             - php-fpm
         volumes:
             - ./:/var/www/laravel-docker
-        depends_on:
+        volumes_from:
             - php-fpm
 
     php-fpm:
@@ -21,8 +21,6 @@ services:
         volumes:
             - ./:/var/www/laravel-docker
         links:
-            - mysql
-        depends_on:
             - mysql
 
     mysql:
