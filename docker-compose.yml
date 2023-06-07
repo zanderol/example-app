@@ -22,6 +22,8 @@ services:
             - ./:/var/www/laravel-docker
         links:
             - mysql
+        networks:
+            - u-online
 
     mysql:
         image: mysql
