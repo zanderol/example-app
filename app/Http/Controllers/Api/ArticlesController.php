@@ -17,7 +17,7 @@ class ArticlesController extends Controller
         return response()->json($articles);
     }
 
-    public function show($id)
+    public function getById($id)
     {
 
         $article = Article::find($id);
@@ -32,14 +32,14 @@ class ArticlesController extends Controller
         return response()->json($article);
     }
 
-    public function store(Request $request)
+    public function create(Request $request)
     {
 
         $requestData = $request->only('title', 'content');
 
         $validator = Validator::make($requestData, [
-            'title' => ['required', 'string'],
-            'content' => ['required', 'string']
+            'title' => ['required', 'string'],      //min, max leng
+            'content' => ['required', 'string']    //min, max leng
         ]);
 
         if ($validator->fails()) {
@@ -58,7 +58,7 @@ class ArticlesController extends Controller
         return response()->json([
             'status' => true,
             'message' => 'Article added',
-            'article' => $article
+            'data' => $article
         ])->setStatusCode(201, 'Article added successfully'); //Code needs to be set, StatusCode - not necessarily
     }
 
@@ -95,7 +95,8 @@ class ArticlesController extends Controller
 
         return response()->json([
             'status' => true,
-            'message' => 'Article updated'
+            'message' => 'Article updated',
+            'data' => $article
         ])->setStatusCode(200, 'Article updated');
     }
 
@@ -169,7 +170,8 @@ class ArticlesController extends Controller
 
         return response()->json([
             "status" => true,
-            "message" => "Article has deleted"
-        ])->setStatusCode(404, 'Deleted');
+            "message" => "Article has deleted",
+            "data" => $article
+        ])->setStatusCode(200, 'Deleted');
     }
 }

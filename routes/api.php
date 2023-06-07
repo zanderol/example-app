@@ -19,10 +19,10 @@ use App\Http\Controllers\Api\ArticlesController;
 Route::get('/articles', [ArticlesController::class, 'index']);
 
 //Get one selected article by ID
-Route::get('/articles/{id}', [ArticlesController::class, 'show']);
+Route::get('/articles/{id}', [ArticlesController::class, 'getById']);
 
 //Add new article
-Route::post('/articles', [ArticlesController::class, 'store']);
+Route::post('/articles', [ArticlesController::class, 'create']);
 
 //Edit article with PUT method
 Route::put('/articles/{id}', [ArticlesController::class, 'editPut']);
