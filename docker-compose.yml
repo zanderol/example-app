@@ -11,20 +11,20 @@ services:
             - php-fpm
         volumes:
             - ./:/var/www/laravel-docker
-        volumes_from:
-            - php-fpm
-
+        networks:
+            - u-online
     php-fpm:
         build:
             context: .
             dockerfile: docker/Php-Fpm.Dockerfile
+        environment:
+            PHP_IDE_CONFIG: "serverName=dev.local"
         volumes:
             - ./:/var/www/laravel-docker
         links:
             - mysql
         networks:
             - u-online
-
     mysql:
         image: mysql
         ports:
@@ -32,9 +32,14 @@ services:
         environment:
             - MYSQL_ROOT_PASSWORD=root
             - MYSQL_DATABASE=laravel
-
+        networks:
+            - u-online
     adminer:
         image: adminer
         restart: always
         ports:
             - 8080:8080
+        networks:
+            - u-online
+networks:
+    u-online:
