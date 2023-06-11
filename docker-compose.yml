@@ -43,3 +43,6 @@ services:
             - u-online
 networks:
     u-online:
+
+volumes:
+    db-data-vol:
